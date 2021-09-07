@@ -14,5 +14,5 @@ CHIP And {
     OUT out;
 
     PARTS:
-    // Put your code here:
+    And (a=b, b=b, out=out);
 }
