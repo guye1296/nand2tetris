@@ -16,5 +16,15 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    // Put your code here:
+    Not(in=sel[2], out=notMsb);
+    DMux4Way(in=in, sel=sel[0..1], a=tempA4Way, b=tempB4Way, c=tempC4Way, d=tempD4Way);
+
+    And(a=notMsb, b=tempA4Way, out=a);
+    And(a=notMsb, b=tempB4Way, out=b);
+    And(a=notMsb, b=tempC4Way, out=c);
+    And(a=notMsb, b=tempD4Way, out=d);
+    And(a=sel[2], b=tempA4Way, out=e);
+    And(a=sel[2], b=tempB4Way, out=f);
+    And(a=sel[2], b=tempC4Way, out=g);
+    And(a=sel[2], b=tempD4Way, out=h);
 }
