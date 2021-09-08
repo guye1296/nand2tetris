@@ -1,6 +1,6 @@
-.PHONY: project0 project1 all
+.PHONY: project0 project1 project2 all
 
-all: project0 project1
+all: project0 project1 project2
 
 
 project0: software_suite/projects/00/file.txt
@@ -10,6 +10,10 @@ project0: software_suite/projects/00/file.txt
 project1: 
 	mkdir -p submissions
 	zip submissions/project1.zip -j weeks/01/*.hdl
+
+project2:
+	mkdir -p submissions
+	zip submissions/project2.zip -j weeks/02/*.hdl
 
 clean:
 	rm -rf submissions/
