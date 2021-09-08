@@ -1,8 +1,0 @@
-CHIP Neg16 {
-    IN in[16];
-    OUT out[16];
-
-    PARTS:
-    Not16(in=in, out=inverted);
-    Inc16(in=inverted, out=out);
-}
