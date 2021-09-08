@@ -15,5 +15,25 @@ CHIP RAM512 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // We can divide `address` into two parts - the chip group and the internal address
+    DMux8Way(in=load, sel=address[6..8], a=ramGroup0, b=ramGroup1, c=ramGroup2, d=ramGroup3, e=ramGroup4, f=ramGroup5, g=ramGroup6, h=ramGroup7);
+    // We then `and` each group 
+    And(a=load, b=ramGroup0, out=shouldLoadGroup0);
+    RAM64(in=in, load=shouldLoadGroup0, address=address[0..5], out=outGroup0);
+    And(a=load, b=ramGroup1, out=shouldLoadGroup1);
+    RAM64(in=in, load=shouldLoadGroup1, address=address[0..5], out=outGroup1);
+    And(a=load, b=ramGroup2, out=shouldLoadGroup2);
+    RAM64(in=in, load=shouldLoadGroup2, address=address[0..5], out=outGroup2);
+    And(a=load, b=ramGroup3, out=shouldLoadGroup3);
+    RAM64(in=in, load=shouldLoadGroup3, address=address[0..5], out=outGroup3);
+    And(a=load, b=ramGroup4, out=shouldLoadGroup4);
+    RAM64(in=in, load=shouldLoadGroup4, address=address[0..5], out=outGroup4);
+    And(a=load, b=ramGroup5, out=shouldLoadGroup5);
+    RAM64(in=in, load=shouldLoadGroup5, address=address[0..5], out=outGroup5);
+    And(a=load, b=ramGroup6, out=shouldLoadGroup6);
+    RAM64(in=in, load=shouldLoadGroup6, address=address[0..5], out=outGroup6);
+    And(a=load, b=ramGroup7, out=shouldLoadGroup7);
+    RAM64(in=in, load=shouldLoadGroup7, address=address[0..5], out=outGroup7);
+    // Then we mux the groups according to the selected group
+    Mux8Way16(a=outGroup0, b=outGroup1, c=outGroup2, d=outGroup3, e=outGroup4, f=outGroup5, g=outGroup6, h=outGroup7, sel=address[6..8], out=out);
 }

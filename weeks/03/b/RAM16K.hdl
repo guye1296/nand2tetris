@@ -15,5 +15,18 @@ CHIP RAM16K {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // We can divide `address` into two parts - the chip group and the internal address
+    DMux4Way(in=load, sel=address[12..13], a=ramGroup0, b=ramGroup1, c=ramGroup2, d=ramGroup3);
+    // We then `and` each group 
+    And(a=load, b=ramGroup0, out=shouldLoadGroup0);
+    RAM4K(in=in, load=shouldLoadGroup0, address=address[0..11], out=outGroup0);
+    And(a=load, b=ramGroup1, out=shouldLoadGroup1);
+    RAM4K(in=in, load=shouldLoadGroup1, address=address[0..11], out=outGroup1);
+    And(a=load, b=ramGroup2, out=shouldLoadGroup2);
+    RAM4K(in=in, load=shouldLoadGroup2, address=address[0..11], out=outGroup2);
+    And(a=load, b=ramGroup3, out=shouldLoadGroup3);
+    RAM4K(in=in, load=shouldLoadGroup3, address=address[0..11], out=outGroup3);
+
+    // Then we mux the groups according to the selected group
+    Mux4Way16(a=outGroup0, b=outGroup1, c=outGroup2, d=outGroup3, sel=address[12..13], out=out);
 }
